@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Canvas from './fabricCanvas'
 import Controls from './controls'
 import "./style.css"
-import { editorActions, uiActions, useAppDispatch } from '@/state/store'
-import { Actions, Thread, ThreadState } from './editor.types'
+import { uiActions, useAppDispatch } from '@/state/store'
+import { Actions, ThreadState } from './editor.types'
 import { Head } from '@inertiajs/react'
 const Index = () => {
   const [threadState, setThreadState] = useState<ThreadState>({activeThread : 0,isPlayAll : false,threads : []})
@@ -17,6 +17,7 @@ const Index = () => {
       }))
     },
     popThread : () => {
+      if(threadState.threads.length > 1)
       setThreadState(prev => ({...prev, threads : prev.threads.filter((t, i) => i != prev.threads.length - 1)}))
     },
     pauseThread : (index) => {
@@ -113,9 +114,6 @@ const Index = () => {
     // });
   },[])
 
-  // useEffect(() => {
-  //   console.log({threadState});
-  // },[threadState])
   return (
     <div className='bg-black'>
       <Head title='Editor'/>

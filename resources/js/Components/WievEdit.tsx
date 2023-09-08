@@ -1,13 +1,20 @@
 import React, { useContext } from 'react'
 import { TbCircles  } from 'react-icons/tb'
-import { editorActions, uiActions, useAppDispatch, useAppSelector } from '@/state/store'
+import { uiActions, useAppDispatch, useAppSelector } from '@/state/store'
 import { BiPlusCircle, BiMinusCircle } from 'react-icons/bi'
-import { fabric } from 'fabric'
 import { FabricContext } from '@/context/fabricContext'
-const WievEdit = () => {
+import { Actions } from '@/Pages/Editor/editor.types'
+const WievEdit = ({tActions} : {tActions : Actions}) => {
   const { currentControl } = useAppSelector(s => s.uiSlice)
   const dispatch = useAppDispatch()
 
+
+  const popThread = () => {
+    tActions.popThread()
+  }
+  const pushThread = () => {
+    tActions.pushThread({activeFrame : 0, degreeOfOrigin : 0, fps : 20,  frames : [], index : 0, isActive : false, isPlaying : false})
+  }
   return (
     <div 
       className='flex flex-row items-center opacity-40 wieve-edit bg-black mb-10  rounded-xl h-32'
@@ -20,7 +27,17 @@ const WievEdit = () => {
       >
         <TbCircles onClick={() => dispatch(uiActions.changeBgColorControl())} className='cursor-pointer'  size={40} />
       </div>
-      <WieveOptions />
+      <div className={`relative`}>
+      {/* {isShow && */}
+          <div>
+              <h4 className='text-xs color-white'>Thread</h4>
+              <div className='flex'>
+                  <BiMinusCircle onClick={popThread} size={20} className='btn-small bg-gray-400 text-red-500  cursor-pointer' />
+                  <BiPlusCircle onClick={pushThread} size={20} className='btn-small bg-gray-400 text-red-500  cursor-pointer' />
+              </div>
+          </div>
+      {/*  } */}
+      </div>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import ColorPicker from '@/Components/colorPicker'
 import Effects from '@/Components/Effects'
 import CentralMenu from '@/Components/CentralMenu'
 import ThreadEdit from '@/Components/ThreadEdit'
@@ -13,7 +12,7 @@ const Controls = ({threadState, actions} : {threadState : ThreadState, actions :
     <div className='w-full flex flex-row items-center justify-between '>
         <LeftSide tState={threadState} tActions={actions} />
         <CentralMenu tState={threadState} tActions={actions}/>
-        <RightSide />
+        <RightSide tState={threadState} tActions={actions}/>
     </div>
   )
 }
@@ -23,18 +22,18 @@ const LeftSide = ({tState, tActions} : TStateActions) => {
         <div className='flex flex-col justify-between absolute top-0 bottom-0 left-0 w-36'>
             <UndoRedo threadState={tState} actions={tActions}/>
             <ThreadEdit threadState={tState} actions={tActions} />
-            <WievEdit />
+            <WievEdit tActions={tActions}/>
         </div>
     )
 }
 
-export const RightSide = () => {
+export const RightSide = ({tState, tActions} : TStateActions) => {
   return (
-    <div className='flex flex-col justify-between items-end  absolute top-0 bottom-0 right-0 pr-5'>
-            <Effects />
-            <IroColor />
-            <PaintBrush />
-        </div>
+    <div className='flex flex-col justify-between items-end absolute top-0 bottom-0 right-0 pr-5'>
+        <Effects tState={tState} tActions={tActions} />
+        <IroColor />
+        <PaintBrush />
+    </div>
   )
 }
 

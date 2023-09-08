@@ -1,8 +1,7 @@
-import React,  { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import { FaPaintBrush } from 'react-icons/fa'
 import { BiPaint } from 'react-icons/bi'
 import { GiLasso } from 'react-icons/gi'
-import { TbDragDrop } from 'react-icons/tb'
 import { editorActions, uiActions, useAppDispatch, useAppSelector } from '@/state/store'
 
 const PaintBrush = () => {
@@ -11,8 +10,10 @@ const PaintBrush = () => {
     const dispatch = useAppDispatch()
   return (
     <div 
-        className=' flex flex-col paint-brush bg-black mb-10  rounded-xl opacity-70'
-        style={{clipPath : currentControl == 'Paint Brush' ? 'circle(100%)' : 'circle(14% at 77% 88%)'}}
+        className='flex flex-row paint-brush bg-black mb-10 rounded-xl opacity-70'
+        style={{height : 300, 
+            clipPath : currentControl == 'Paint Brush' ? 'circle(100% at 50% 50%)' : 'circle(11% at 88% 89%)'
+        }}
     >
         <PaintOptions />
         <div className='p-3 cursor-pointer self-end  shadow-black  rounded-full' onClick={() => dispatch(uiActions.setCurrentControl(currentControl == 'Paint Brush' ? null : 'Paint Brush'))}>

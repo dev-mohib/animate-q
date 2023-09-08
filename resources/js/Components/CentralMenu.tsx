@@ -1,23 +1,21 @@
-import React, { useState } from 'react'
+import React, { createRef, useState } from 'react'
 import { FaPlay, FaPause} from 'react-icons/fa' 
-import { TbGridDots, TbFileExport } from 'react-icons/tb'
+import { TbGridDots } from 'react-icons/tb'
 import { CgRecord, CgImport } from 'react-icons/cg'
 import { AiOutlineLogout} from 'react-icons/ai'
-import { editorActions, uiActions, useAppDispatch, useAppSelector } from '@/state/store'
-// import { saveRecording, startRecording} from '@/utils/recording'
+import { uiActions, useAppDispatch, useAppSelector } from '@/state/store'
 import { TStateActions } from '@/Pages/Editor/editor.types'
+import { startRecorder } from '@/utils/recording'
+import { usePage } from '@inertiajs/react'
+import { PageProps } from '@/types'
 const CentralMenu = ({tState, tActions} : TStateActions) => {
-  const [isPlaying, setPlaying] = useState(false)
+  const { auth } = usePage<PageProps>().props
+  
   const { currentControl, isRecording } = useAppSelector(s => s.uiSlice)
   const dispatch = useAppDispatch()
   
   const handleLogout = () => {
-    const confirm = window.confirm("Please confirm to logout")
-    if(confirm){
-      localStorage.removeItem('aq_email')
-      localStorage.removeItem('aq_password')
-      window.location.reload()
-    }
+  //  
   }
 
   const importFromJson = () => {
@@ -44,14 +42,19 @@ const CentralMenu = ({tState, tActions} : TStateActions) => {
             if(!isRecording){
               dispatch(uiActions.startRecording())
               // startRecording()
+              startRecorder()
             }
             }} color={isRecording ? 'gray' : 'red'} />
           <CgImport className='text-green-400' onClick={importFromJson} />
-          <AiOutlineLogout className='text-red-700' onClick={handleLogout} />
+          {
+            auth.user &&
+            <AiOutlineLogout className='text-red-700' onClick={handleLogout} />
+          }
         </div>
       </div>
     </div>
   )
 }
+
 
 export default CentralMenu

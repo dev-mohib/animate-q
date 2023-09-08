@@ -32,7 +32,7 @@ export default function Login({ status, canResetPassword } : any) {
             <Head title="Log in" />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-            <h1 className='text-3xl my-4'>Signin - <b className='text-red-400'>Motionlayer</b></h1>
+            <h1 className='text-3xl my-4'>Signin - <b className='text-red-400'>AnimateQ</b></h1>
           <div className='w-full shadow-2xl rounded-2xl p-10 px-20'>
             <form onSubmit={submit}>
                 <div>
