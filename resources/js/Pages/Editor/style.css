@@ -1,0 +1,162 @@
+.controls {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.7);
+  }
+  
+  
+  .ui-slider-vertical { height: 200px; width: 300px; border-radius: 100px; overflow: hidden; }
+  .ui-slider .ui-slider-handle { width: 100%; left: 0; }
+  
+  .range-slider{
+    /* appearance:  slider-vertical; */
+    /* -webkit-appearance: slider-vertical; */
+    -webkit-appearance: none;
+    appearance: none;
+    /* width: 100%; Full-width */
+    /* height: 25px; Specified height */
+    background: #04AA6D; /* Grey background */
+    border-radius: 20px;
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+  }
+  
+  .range-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+  
+  .thread {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .wheel-container {
+    position:  absolute;
+    background-color: rgba(0, 0, 0, 0.555);
+    display: flex;
+    justify-content : space-between;
+    margin-left: -50px;
+    transition: all 0.5s ease-in-out;
+    z-index: 999;
+    width: 160px;
+    height: 300px;
+    margin-top: -100px;
+    padding-top: 35px;
+  }
+  
+  .wheel {
+    position: relative;
+    padding-left: 55px;
+    height: 100px;
+    width: 50px;
+    cursor: pointer;
+  }
+  .options{
+    /* padding: 10px; */
+    /* margin-left: -30px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .paint-brush{
+    /* clip-path: circle(14% at 77% 88%); */
+    transition: all 0.5s ease-out
+  }
+  /* .paint-brush:hover{
+    clip-path: circle(100%);
+  } */
+  .wieve-edit{
+    /* clip-path: circle(20% at 22% 77%); */
+    transition: all 0.5s ease-in-out;
+  }
+  
+  /* .wieve-edit:hover{
+    clip-path: circle(45% at 35% 50%);
+  } */
+  
+  
+  input[type="range"] { 
+    margin: auto;
+    -webkit-appearance: slider-vertical;
+    /* position: relative; */
+    overflow: hidden;
+    height: 170px;
+    width: 30px;
+    cursor: pointer;
+    border-radius: 20px; /* iOS */
+    z-index: 999;
+  }
+  
+  ::-webkit-slider-runnable-track {
+    background: #ddd;
+  }
+  
+  /*
+  * 1. Set to 0 width and remove border for a slider without a thumb
+  * 2. Shadow is negative the full width of the input and has a spread 
+  *    of the width of the input.
+  */
+  ::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -200px 0 0 200px #dedede; /* 2 */
+    border: 2px solid #999; /* 1 */
+  }
+  
+  ::-moz-range-track {
+    height: 40px;
+    background: #ddd;
+  }
+  
+  ::-moz-range-thumb {
+    background: #fff;
+    height: 40px;
+    width: 20px;
+    border: 3px solid #999;
+    border-radius: 0 !important;
+    box-shadow: -200px 0 0 200px #dedede;
+    box-sizing: border-box;
+  }
+  
+  ::-ms-fill-lower { 
+    background: dodgerblue;
+  }
+  
+  ::-ms-thumb { 
+    background: #fff;
+    border: 2px solid #999;
+    height: 40px;
+    width: 20px;
+    box-sizing: border-box;
+  }
+  
+  ::-ms-ticks-after { 
+    display: none; 
+  }
+  
+  ::-ms-ticks-before { 
+    display: none; 
+  }
+  
+  ::-ms-track { 
+    background: #ddd;
+    color: transparent;
+    height: 40px;
+    border: none;
+  }
+  
+  ::-ms-tooltip { 
+    display: none;
+  }

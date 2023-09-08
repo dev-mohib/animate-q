@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  padding: 0;
+  max-height: 100% !important;
+  overflow: hidden;
+  color: #cac3c3;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*{
+  /* color : #fafafa; */
+  -webkit-user-select: none; /* Safari */        
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* IE10+/Edge */
+user-select: none; /* Standard */
+}
+
+  
+  .record-btn{
+    @apply bg-teal-800 text-white border-none hover:bg-teal-700 font-bold px-4 py-1 cursor-pointer
+  }
+  .btn{
+    @apply inline-block rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out  hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)]  focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]
+  }
+  .btn-primary{
+    @apply bg-blue-700 hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700
+  }
+  .btn-success{
+    @apply bg-green-700 hover:bg-green-600 focus:bg-green-600 active:bg-green-700
+  }
+  .gradient {
+    @apply bg-gradient-to-r from-teal-700 via-teal-500 to-blue-500
+  }
+  .h-90 {
+    height: 80vh;
+  }
+  
+  .flex-col-center{
+    @apply flex flex-col justify-center items-center
+  }
+  .flex-row-center{
+    @apply flex flex-row justify-center items-center
+  }
+  .flex-row-between{
+    @apply flex flex-row justify-between items-center
+  }
+  .flex-col-between{
+    @apply flex flex-col justify-between items-center
+  }
+  
+  .custom {
+    @apply text-red-500 font-bold
+  }
+  
+  select{
+    @apply bg-slate-600 rounded text-gray-200 px-5 transition font-sans font-bold py-1 cursor-pointer border mb-2 items-center
+  }
+  select option{
+    @apply text-gray-200 font-sans font-normal cursor-pointer my-1
+  
+  }
+  
+  dialog {
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+
+    height: -moz-fit-content;
+    height: -webkit-fit-content;
+    height: fit-content;
+
+    visibility:hidden;
+    opacity:0;
+    transition:visibility 10s linear 10s,opacity 10s linear;
+}
+
+dialog[open] {   
+    visibility:visible;
+    opacity:1;
+    transition-delay:0s;
+}
+  
+  
+  /* LANDING PAGE */

@@ -1,0 +1,91 @@
+{
+  "_TextInput-66492610.js": {
+    "file": "assets/TextInput-66492610.js",
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  },
+  "_controls-28b58742.js": {
+    "file": "assets/controls-28b58742.js",
+    "imports": [
+      "resources/js/app.tsx",
+      "_index-387d7a00.js"
+    ],
+    "isDynamicEntry": true
+  },
+  "_index-387d7a00.js": {
+    "file": "assets/index-387d7a00.js"
+  },
+  "resources/js/Pages/Auth/Login.tsx": {
+    "file": "assets/Login-05244e80.js",
+    "imports": [
+      "resources/js/app.tsx",
+      "_TextInput-66492610.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Auth/Login.tsx"
+  },
+  "resources/js/Pages/Editor/index.css": {
+    "file": "assets/index-04bd2a27.css",
+    "src": "resources/js/Pages/Editor/index.css"
+  },
+  "resources/js/Pages/Editor/index.tsx": {
+    "css": [
+      "assets/index-04bd2a27.css"
+    ],
+    "file": "assets/index-9635b234.js",
+    "imports": [
+      "resources/js/app.tsx",
+      "_controls-28b58742.js",
+      "_index-387d7a00.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Editor/index.tsx"
+  },
+  "resources/js/Pages/Home/index.tsx": {
+    "file": "assets/index-d685eedc.js",
+    "imports": [
+      "resources/js/app.tsx",
+      "_index-387d7a00.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Home/index.tsx"
+  },
+  "resources/js/Pages/Signin/index.tsx": {
+    "file": "assets/index-616f17bd.js",
+    "imports": [
+      "resources/js/app.tsx",
+      "_TextInput-66492610.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Signin/index.tsx"
+  },
+  "resources/js/Pages/Welcome.tsx": {
+    "file": "assets/Welcome-40e7d119.js",
+    "imports": [
+      "resources/js/app.tsx"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Welcome.tsx"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-ee76e3b8.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.tsx": {
+    "css": [
+      "assets/app-ee76e3b8.css"
+    ],
+    "dynamicImports": [
+      "resources/js/Pages/Auth/Login.tsx",
+      "_controls-28b58742.js",
+      "resources/js/Pages/Editor/index.tsx",
+      "resources/js/Pages/Home/index.tsx",
+      "resources/js/Pages/Signin/index.tsx",
+      "resources/js/Pages/Welcome.tsx"
+    ],
+    "file": "assets/app-00c4ff73.js",
+    "isEntry": true,
+    "src": "resources/js/app.tsx"
+  }
+}
