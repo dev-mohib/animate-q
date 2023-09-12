@@ -32,6 +32,7 @@ function ThreadsEdit({threadState, actions} : {threadState : ThreadState, action
       result.destination.index
     );
     // dispatch(editorActions.reOrderThreads(_threads))
+    actions.reOrderThreads(_threads)
   }
 
   return (

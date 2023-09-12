@@ -21,7 +21,6 @@ export const SwipeControl = ({index = 0, tActions, thread, tState} : {index : nu
     onTouchMove={(e) => {
       const _clientY = e.touches[0].clientY;
       if(startingPoint < _clientY){
-        // setDegreeOfOrigin((d: number) => d + 1 < 360 ? d + 1 : (d+1) - 360)
         const newValue = thread.degreeOfOrigin + 3
         tActions.setDegreeOfOrigin(newValue < 360 ? newValue : newValue - 360, index)
       }
@@ -72,7 +71,7 @@ export const  ThreadWheel = ({index = 0, tState, tActions, thread} : {index : nu
             {clipPath : 'circle(13% at 34.4% 28.5%)', backgroundColor : 'rgba(0, 0, 0, 0.555)'}}
         >
         <div className="wheel" onClick={() => {
-          dispatch(editorActions.setActiveThread(index))
+          tActions.setActiveThread(index)
           if(activeThread == index){
             dispatch(isThreadShow ? uiActions.hideThreadWheel()  : uiActions.showThreadWheel())
           }else {
@@ -84,13 +83,10 @@ export const  ThreadWheel = ({index = 0, tState, tActions, thread} : {index : nu
                 key={i} 
                 activeFrame={activeFrame}  
                 Icon={frame.isFilled ? BsCircleFill : BsCircle}
-                // degreePerFrame={degreePerFrame} 
                 degreeOfOrigin={degreeOfOrigin} 
                 frameIndex={i} 
                 tActions={tActions}
                 threadIndex={index}
-                // isPlaying={isPlaying}
-
               />
             )
           }

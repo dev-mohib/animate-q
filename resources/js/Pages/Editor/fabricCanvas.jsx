@@ -10,7 +10,6 @@ const FabricCanvas = ({tState, tActions}) => {
   const [isLoaded, setLoaded] = useState(false)
   const [isPainting, setPainting] = useState(false)
   const canvas = useContext(FabricContext)
-  const [pencilBrush, setPencilBrush] = useState(null)
   const setFabric = useContext(FabricDispatchContext)
   const dispatch = useAppDispatch()
   const [client, setClient] = useState({x : 0, y : 0})
@@ -18,15 +17,19 @@ const FabricCanvas = ({tState, tActions}) => {
 
   const { threads, activeThread } = tState
   const { brushColor, bgColor, brushWidth, brushShadow } = useAppSelector(s => s.editorSlice)
-  const { drawTool, threadLayersView, isThreadShow, isResized } = useAppSelector(s => s.uiSlice)
+  const { drawTool, threadLayersView, isResized } = useAppSelector(s => s.uiSlice)
   // var clientX,clientY, optionsE
-
+  const findObjectsByData = (activeThread, activeFrame) =>{
+    return canvas._objects.filter(obj => obj.data.activeThread == activeThread && obj.data.activeFrame == activeFrame )
+  }
+  const findObjectsByName = (name) =>{
+    return canvas._objects.filter(obj => obj.name == name)
+  }
   useEffect(() => {
     const _canvas = new Fabric.Canvas('myCanvas', {
       width: window.innerWidth, 
       height: window.innerHeight,
       backgroundColor : bgColor,
-      // stateful : true,
       stateful : false,
       isDrawingMode : true,
       // allowTouchScrolling : true,
@@ -69,12 +72,6 @@ const FabricCanvas = ({tState, tActions}) => {
     setLoaded(true)
     
   }, [])
-const findObjectsByData = (activeThread, activeFrame) =>{
-  return canvas._objects.filter(obj => obj.data.activeThread == activeThread && obj.data.activeFrame == activeFrame )
-}
-const findObjectsByName = (name) =>{
-  return canvas._objects.filter(obj => obj.name == name)
-}
 
 
 //Resize Canvas on Window changed

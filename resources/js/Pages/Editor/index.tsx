@@ -16,6 +16,12 @@ const Index = () => {
         threads : [...threadState.threads, thread]
       }))
     },
+    reOrderThreads : (threads) => {
+      setThreadState({
+        ...threadState,
+        threads
+      })
+    },
     popThread : () => {
       if(threadState.threads.length > 1)
       setThreadState(prev => ({...prev, threads : prev.threads.filter((t, i) => i != prev.threads.length - 1)}))

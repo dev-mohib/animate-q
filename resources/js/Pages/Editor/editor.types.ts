@@ -32,7 +32,8 @@ export interface Actions {
     popFrame : (threadIndex : number) => void,
     fillFrame : (tIndex : number, fIndex : number) => void,
     unfillFrame : (threadIndex : number) => void,
-    getState : () => ThreadState
+    getState : () => ThreadState,
+    reOrderThreads : (threads : Thread[]) => void
 }
 
 export interface TStateActions{
