@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Canvas from './fabricCanvas'
 import Controls from './controls'
 import "./style.css"
@@ -16,15 +16,8 @@ const Index = () => {
         threads : [...threadState.threads, thread]
       }))
     },
-    reOrderThreads : (threads) => {
-      setThreadState({
-        ...threadState,
-        threads
-      })
-    },
-    popThread : () => {
-      if(threadState.threads.length > 1)
-      setThreadState(prev => ({...prev, threads : prev.threads.filter((t, i) => i != prev.threads.length - 1)}))
+    popThread : (index?) => {
+      setThreadState(prev => ({...prev, threads : prev.threads.filter((t, i) => i != (index??prev.threads.length - 1))}))
     },
     pauseThread : (index) => {
       setThreadState(prev => ({
@@ -112,19 +105,13 @@ const Index = () => {
       {
         fps : 15, index : 0, isActive : false,isPlaying : false, degreeOfOrigin : 0, 
         frames : [{isFilled : false}], 
-        // frames : [{isFilled : false}],
         activeFrame : 0})
-    // window.addEventListener('beforeunload', (event) => {
-    //   event.preventDefault();
-    //   event.returnValue = '';
-    // });
   },[])
 
   return (
     <div className='bg-black'>
-      <Head title='Editor'/>
+        <Head title='Editor'/>
         <Canvas tState={threadState} tActions={actions} />
-        {/* <TestCanvas /> */}
         <Controls threadState={threadState} actions={actions} />
     </div>
   )

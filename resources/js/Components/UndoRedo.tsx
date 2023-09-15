@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { GrUndo, GrRedo } from 'react-icons/gr'
 import { useAppSelector, useAppDispatch, uiActions } from '../state/store'
-import { FabricContext } from '@/context/fabricContext'
+import { FabricContext } from '../context/fabricContext'
 import { Actions, ThreadState } from '@/Pages/Editor/editor.types'
 
 export var historyState : {
@@ -23,8 +23,7 @@ const UndoRedo = ({threadState, actions} : {threadState : ThreadState, actions :
       historyState.isLocked = true
       const content = historyState.undoHistory[historyState.undoHistory.length - 2]
       historyState.undoHistory.pop()
-      historyState.redoHistory.push(canvas?.toJSON())
-      
+      historyState.redoHistory.push(canvas?.toJSON(["data"]))      
       canvas?.loadFromJSON(content, () => {
         canvas.renderAll()
         historyState.isLocked = false
@@ -49,15 +48,10 @@ const UndoRedo = ({threadState, actions} : {threadState : ThreadState, actions :
     }
   }
 
-  // useEffect(() => {
-  //   historyState.undoHistory.push(canvas?.toJSON())
-  // },[])
   return (
-    <div className='mt-5 flex'>
-      <div className='flex cursor-pointer'>
-        <GrUndo size={20} className={`cursor-pointer ${isUndoAble ? 'text-white' : 'text-gray-400'}`} onClick={handleUndo} />
-        <GrRedo size={20} className={`cursor-pointer ${isRedoAble ? 'text-white' : 'text-gray-400'}`} onClick={handleRedo} />
-      </div>
+    <div className='flex items-center justify-center h-14  bg-black rounded-br-xl opacity-70'>
+        <GrUndo size={45} className={`cursor-pointer   ${isUndoAble ? 'text-white active:text-red-500' : 'text-gray-400'}`} onClick={handleUndo} />
+        <GrRedo size={45} className={`cursor-pointer   ${isRedoAble ? 'text-white active:text-red-500' : 'text-gray-400'}`} onClick={handleRedo} />
     </div>
   )
 }

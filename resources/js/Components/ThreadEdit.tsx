@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { editorActions, useAppDispatch, useAppSelector } from "@/state/store";
+import { editorActions, useAppDispatch, useAppSelector } from "../state/store";
 // import { Thread as ThreadType} from "../state/slices/editorSlice";
 import { ThreadWheel } from "./ThreadWheel";
 import { SwipeControl } from './ThreadWheel'
@@ -14,7 +14,7 @@ const reOrder = (list : ThreadList[], startIndex : number, endIndex : number) =>
   return result;
 };
 
-function ThreadsEdit({threadState, actions} : {threadState : ThreadState, actions : ThreadActions}) {
+function ThreadsEdit({threadState, actions, isExpanded} : {threadState : ThreadState, actions : ThreadActions, isExpanded : boolean}) {
   const dispatch = useAppDispatch()
   // const { threads } = useAppSelector(s => s.editorSlice)
   const { isThreadShow } = useAppSelector(s => s.uiSlice)
@@ -32,15 +32,13 @@ function ThreadsEdit({threadState, actions} : {threadState : ThreadState, action
       result.destination.index
     );
     // dispatch(editorActions.reOrderThreads(_threads))
-    actions.reOrderThreads(_threads)
   }
 
   return (
-    <>
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="threads">
         {provided => (
-          <div className="flex flex-col justify-evenly  ml-7 mt-16" style={{ height : '70%'}} ref={provided.innerRef} {...provided.droppableProps}>
+          <div className={`flex flex-col justify-evenly  ml-7 mt-16 ${!isExpanded && 'hidden'}`} style={{ height : '70%'}} ref={provided.innerRef} {...provided.droppableProps}>
             {
               threadState.threads.map((thread, index) => <ThreadItem 
                 key={index}  index={index} 
@@ -54,7 +52,6 @@ function ThreadsEdit({threadState, actions} : {threadState : ThreadState, action
         )}
       </Droppable>
     </DragDropContext>
-    </>
   );
 }
 const ThreadItem = ({index, provided, thread, tActions, tState} : {index : number, provided : any, thread : ThreadList, tActions : ThreadActions, tState : ThreadState}) => {

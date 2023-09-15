@@ -28,11 +28,12 @@ export default function Login({ status, canResetPassword } : any) {
     };
 
     return (
-        <>
+        <div className='bg-gray-200 min-h-screen grid place-content-center'>
             <Head title="Log in" />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
+            <h1 className='text-3xl my-4'>Signin - <b className='text-purple-400'>AnimateQ</b></h1>
+          <div className='w-full shadow-2xl rounded-2xl p-10 px-20'>
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="email" value="Email" children={undefined} />
@@ -80,20 +81,14 @@ export default function Login({ status, canResetPassword } : any) {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
+                    <Link href={route('video.home')} className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Go Home</Link>
 
                     <PrimaryButton className="ml-4" disabled={processing}>
                         Log in
                     </PrimaryButton>
                 </div>
             </form>
-        </>
+          </div>
+        </div>
     );
 }

@@ -19,7 +19,7 @@ export interface ThreadState {
 
 export interface Actions {
     pushThread : (thread : Thread) => void,
-    popThread : () => void,
+    popThread : (index? : number) => void,
     setFps : (action : 'increase' | 'decrease', index : number) => void,
     playThread : (index : number) => void,
     pauseThread : (index : number) => void,
@@ -32,8 +32,7 @@ export interface Actions {
     popFrame : (threadIndex : number) => void,
     fillFrame : (tIndex : number, fIndex : number) => void,
     unfillFrame : (threadIndex : number) => void,
-    getState : () => ThreadState,
-    reOrderThreads : (threads : Thread[]) => void
+    getState : () => ThreadState
 }
 
 export interface TStateActions{

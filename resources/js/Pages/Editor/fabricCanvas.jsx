@@ -1,5 +1,5 @@
 import * as fabric from 'fabric'
-import { useEffect, useRef, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useAppSelector, useAppDispatch, uiActions } from '@/state/store';
 import { FabricContext, FabricDispatchContext} from '@/context/fabricContext'
 import { historyState } from '@/Components/UndoRedo'
@@ -16,15 +16,9 @@ const FabricCanvas = ({tState, tActions}) => {
   
 
   const { threads, activeThread } = tState
-  const { brushColor, bgColor, brushWidth, brushShadow } = useAppSelector(s => s.editorSlice)
-  const { drawTool, threadLayersView, isResized } = useAppSelector(s => s.uiSlice)
-  // var clientX,clientY, optionsE
-  const findObjectsByData = (activeThread, activeFrame) =>{
-    return canvas._objects.filter(obj => obj.data.activeThread == activeThread && obj.data.activeFrame == activeFrame )
-  }
-  const findObjectsByName = (name) =>{
-    return canvas._objects.filter(obj => obj.name == name)
-  }
+  const { brushColor, bgColor, brushWidth } = useAppSelector(s => s.editorSlice)
+  const { drawTool, threadLayersView, isResized, isThreadShow } = useAppSelector(s => s.uiSlice)
+
   useEffect(() => {
     const _canvas = new Fabric.Canvas('myCanvas', {
       width: window.innerWidth, 
@@ -32,7 +26,6 @@ const FabricCanvas = ({tState, tActions}) => {
       backgroundColor : bgColor,
       stateful : false,
       isDrawingMode : true,
-      // allowTouchScrolling : true,
       enableRetinaScaling : false,
       selection : false,
       allowTouchScrolling : false,
@@ -43,6 +36,7 @@ const FabricCanvas = ({tState, tActions}) => {
     Fabric.Object.prototype.hasBorders = false
     Fabric.Object.prototype.hasControls = false
     Fabric.Object.prototype.statefullCache = false
+    Fabric.Object.prototype.selectable=false
     let _pencilBrush =  new Fabric.PencilBrush(_canvas)
     _pencilBrush.initialize(_canvas)
     _pencilBrush.color =  brushColor
@@ -72,20 +66,22 @@ const FabricCanvas = ({tState, tActions}) => {
     setLoaded(true)
     
   }, [])
+const findObjectsByData = (activeThread = 0, activeFrame = 0) =>{
+  return canvas._objects.filter(obj => obj?.data?.activeThread == activeThread && obj?.data?.activeFrame == activeFrame )
+}
+const findObjectsByName = (name) =>{
+  return canvas._objects.filter(obj => obj.name == name)
+}
 
-
-//Resize Canvas on Window changed
   useEffect(() => {
-    var orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
-    if(orientation == 'portrait-primary' || orientation == 'portrait-secondary'){
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }else if(orientation == 'landscape-primary' || orientation == 'landscape-secondary'){
-      canvas.width = window.innerHeight
-      canvas.height = window.innerWidth
+    if(isLoaded){
+      // alert('setting canvas dimenstions')
+      canvas.setDimensions({
+        width : window.innerWidth,
+        height : window.innerHeight
+      })
+      
     }
-
-    canvas.renderAll()
   },[isResized])
 
   useEffect(() => {
@@ -98,18 +94,19 @@ const FabricCanvas = ({tState, tActions}) => {
       if(drawTool == 'brush'){
         canvas.isDrawingMode = true
         canvas.freeDrawingBrush.color = brushColor
-        canvas.freeDrawingBrush.shadow = brushShadow  //{offsetX : brushShadow, offsetY : brushShadow, blur : 8}
+        canvas.freeDrawingBrush.width = brushWidth
         try {
           canvas.__eventListeners["path:created"] = [];
         } catch (error) {}
       }
       else if(drawTool == 'eraser'){
-        // pencilBrush.color = bgColor
         canvas.freeDrawingBrush.color = bgColor
-        canvas.freeDrawingBrush.shadow = null
+        canvas.freeDrawingBrush.width = brushWidth   
       }
       else {
           canvas.isDrawingMode = true
+          canvas.freeDrawingBrush.color = brushColor
+          canvas.freeDrawingBrush.width = brushWidth
           canvas.__eventListeners["path:created"] = [];
           canvas.on('path:created', function(options) {
             var path = options.path;
@@ -122,7 +119,7 @@ const FabricCanvas = ({tState, tActions}) => {
       }
       canvas.renderAll()
     }
-  },[brushColor, brushWidth, bgColor, drawTool, isLoaded, brushShadow])
+  },[brushColor, brushWidth, bgColor, drawTool, isLoaded])
 
 
   useEffect(() => {
@@ -132,7 +129,6 @@ const FabricCanvas = ({tState, tActions}) => {
       left : client.x, 
       top : client.y, 
       radius : brushWidth / 2,
-      shadow : brushShadow
     })
     if(threads[activeThread]?.isPlaying){     
       canvas.isDrawingMode = false
@@ -143,29 +139,29 @@ const FabricCanvas = ({tState, tActions}) => {
     canvas.isDrawingMode = true
     }
   }
-  },[isLoaded, activeThread, threads[activeThread], isPainting, brushShadow])
+  },[isLoaded, activeThread, threads[activeThread], isPainting])
 
   useEffect(() => {
     if(isLoaded){
       canvas.__eventListeners["object:added"] = [];
       canvas.on('object:added', (e) => {
-      e.target.name = drawTool
-      e.target.data = {
-        activeThread,
-        activeFrame : threads[activeThread??0].activeFrame 
-      }
-      if(findObjectsByData(activeThread, threads[activeThread].activeFrame).length){
-        tActions.fillFrame(activeThread,threads[activeThread].activeFrame)
-      }
-      if(!historyState.isLocked){
-        dispatch(uiActions.enableUndo())
-        historyState.undoHistory.push(canvas.toJSON())
-        historyState.redoHistory = []
-        dispatch(uiActions.disableRedo())
-      }
+        if(!historyState.isLocked){
+          e.target.name = drawTool
+          e.target.data = {
+            activeThread,
+            activeFrame : threads[activeThread??0].activeFrame 
+          }
+          if(findObjectsByData(activeThread, threads[activeThread].activeFrame).length){
+            tActions.fillFrame(activeThread,threads[activeThread].activeFrame)
+          }
+          dispatch(uiActions.enableUndo())
+          historyState.undoHistory.push(canvas.toJSON(["data"]))
+          historyState.redoHistory = []
+          dispatch(uiActions.disableRedo())
+        }
       })
     }
-  },[activeThread, threads[activeThread], isLoaded])
+  },[activeThread, threads[activeThread], isLoaded, drawTool])
 
 
   useEffect(() => {
@@ -173,40 +169,44 @@ const FabricCanvas = ({tState, tActions}) => {
       const threadActive = threads[activeThread??0]
       canvas._objects.forEach(obj => {
         obj.sendToBack()
-        obj.visible = false,
-        obj.selectable = false
+        obj.visible = false
       })
-
-      
-      threads.forEach((_thread, index) => {
-        findObjectsByData(index, _thread.activeFrame)
-        .forEach((object, index) => {
-          object.sendToBack()
-          object.visible = true
-          object.opacity = 1
-          if(!threadActive.isPlaying){
-            if(threadLayersView == 'Next'){
-              const nextIndex = threadActive.activeFrame == threadActive.frames.length - 1  ? 0 : threadActive.activeFrame + 1
-              findObjectsByData(activeThread, nextIndex).forEach(obj => {
-                obj.visible = true
-                obj.opacity = 0.3
-              })
-            }else if(threadLayersView == 'Previous'){
-              const previousIndex = threadActive.activeFrame ==  0 ?  threadActive.frames.length - 1 : threadActive.activeFrame - 1
-              findObjectsByData(activeThread, previousIndex).forEach(obj => {
-                obj.visible = true
-                obj.selectable = false
-                obj.opacity = 0.3
-               })
+      if(isThreadShow) {
+          findObjectsByData(activeThread, threads[activeThread].activeFrame)
+          .forEach((object, index) => {
+              object.sendToBack()
+              object.visible = true
+              object.opacity = 1
+              if(!threadActive.isPlaying){
+                if(threadLayersView == 'Next'){
+                  const nextIndex = threadActive.activeFrame == threadActive.frames.length - 1  ? 0 : threadActive.activeFrame + 1
+                  findObjectsByData(activeThread, nextIndex).forEach(obj => {
+                    obj.visible = true
+                    obj.opacity = 0.3
+                  })
+                }else if(threadLayersView == 'Previous'){
+                  const previousIndex = threadActive.activeFrame ==  0 ?  threadActive.frames.length - 1 : threadActive.activeFrame - 1
+                  findObjectsByData(activeThread, previousIndex).forEach(obj => {
+                    obj.visible = true
+                    obj.selectable = false
+                    obj.opacity = 0.3
+                   })
+                }
             }
-          }
         })
-      })
-      
+      } else {
+        threads.forEach((_thread, index) => {
+          findObjectsByData(index, _thread.activeFrame)
+          .forEach((object, index) => {
+            object.sendToBack()
+            object.visible = true
+            object.opacity = 1
+          })
+        })
+      }
       canvas.renderAll()
-    }
-      
-  },[activeThread, threads, threadLayersView])
+    } 
+  },[activeThread, threads, threadLayersView, isThreadShow])
 
   return (
     <canvas id='myCanvas'></canvas>

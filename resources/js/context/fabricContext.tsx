@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, SetStateAction, useState } from "react"
 import { fabric } from 'fabric'
 
-const ctx = new fabric.Canvas('myCanvas2', { isDrawingMode : true})
+const ctx = new fabric.Canvas('myCanvas2', { isDrawingMode : true })
 export const FabricContext = createContext<null | fabric.Canvas>(null)
 export const FabricDispatchContext = createContext<null | Dispatch<SetStateAction<fabric.Canvas>>>(null)
 

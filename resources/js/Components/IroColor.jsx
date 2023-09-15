@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import iro from '@jaames/iro'
-import { useAppDispatch, useAppSelector, editorActions, uiActions } from '@/state/store'
+import { useAppDispatch, useAppSelector, editorActions } from '../state/store'
 
 const IroColor = () => {
     const { currentControl } = useAppSelector(s => s.uiSlice)

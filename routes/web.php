@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [VideoController::class, 'index'])->name('video.index');
+Route::get('/', [VideoController::class, 'index'])->name('video.home');
 Route::get('/clean', [VideoController::class, 'clean'])->name('video.clean');
 
 Route::get('/video', [VideoController::class, 'index'])->name('video.index');
