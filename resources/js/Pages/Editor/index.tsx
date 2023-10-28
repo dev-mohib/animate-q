@@ -25,6 +25,13 @@ const Index = () => {
         threads : prev.threads.map((t, i) => i == index ? ({...t, isPlaying : false}) : ({...t}))
       }))
     },
+    reOrderThreads : (t) => {
+      // console.log({t})
+      setThreadState(prev => ({
+        ...prev,
+        threads : t
+      }))
+    },
     playThread : (index) => {
       setThreadState(prev => ({
         ...prev,

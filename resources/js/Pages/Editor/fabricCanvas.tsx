@@ -1,12 +1,14 @@
+// @ts-nocheck
 import * as fabric from 'fabric'
 import { useEffect, useState, useContext } from 'react';
 import { useAppSelector, useAppDispatch, uiActions } from '@/state/store';
 import { FabricContext, FabricDispatchContext} from '@/context/fabricContext'
 import { historyState } from '@/Components/UndoRedo'
+import { ThreadState, Actions as TStateActions } from './editor.types';
 const {fabric : Fabric} = fabric
 
 
-const FabricCanvas = ({tState, tActions}) => {
+const FabricCanvas = ({tState, tActions} : {tState : ThreadState, tActions : TStateActions}) => {
   const [isLoaded, setLoaded] = useState(false)
   const [isPainting, setPainting] = useState(false)
   const canvas = useContext(FabricContext)
@@ -43,7 +45,24 @@ const FabricCanvas = ({tState, tActions}) => {
     _pencilBrush.width = brushWidth
   
     _canvas.freeDrawingBrush = _pencilBrush
+    //Free circle
+    const circle = new Fabric.Circle({ 
+      opacity : 0,
+      left : 0, 
+      top : 0, 
+      radius : 1,
+      visible : false,
+      data : {
+        activeThread : 0,
+        activeFrame : 0
+      },
+      fill : 'red'
+    })
+
+    _canvas.add(circle)
     setFabric(_canvas)
+
+
     _canvas.on('mouse:wheel', function(opt) {
       var delta = opt.e.deltaY;
       var zoom = _canvas.getZoom();
@@ -163,8 +182,7 @@ const findObjectsByName = (name) =>{
     }
   },[activeThread, threads[activeThread], isLoaded, drawTool])
 
-
-  useEffect(() => {
+ useEffect(() => {
     if(isLoaded){
       const threadActive = threads[activeThread??0]
       canvas._objects.forEach(obj => {
@@ -173,6 +191,7 @@ const findObjectsByName = (name) =>{
       })
       if(isThreadShow) {
           findObjectsByData(activeThread, threads[activeThread].activeFrame)
+          // canvas?._objects
           .forEach((object, index) => {
               object.sendToBack()
               object.visible = true
@@ -195,9 +214,9 @@ const findObjectsByName = (name) =>{
             }
         })
       } else {
-        threads.forEach((_thread, index) => {
-          findObjectsByData(index, _thread.activeFrame)
-          .forEach((object, index) => {
+        threads.forEach((_thread) => {
+          findObjectsByData(_thread.index, _thread.activeFrame)
+          .forEach((object) => {
             object.sendToBack()
             object.visible = true
             object.opacity = 1
@@ -206,7 +225,10 @@ const findObjectsByName = (name) =>{
       }
       canvas.renderAll()
     } 
-  },[activeThread, threads, threadLayersView, isThreadShow])
+   },[activeThread, threads, threadLayersView, isThreadShow])
+
+  
+// },[])
 
   return (
     <canvas id='myCanvas'></canvas>

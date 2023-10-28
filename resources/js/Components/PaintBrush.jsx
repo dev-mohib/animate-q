@@ -20,7 +20,7 @@ const PaintBrush = () => {
             }}
         >
             <PaintOptions />
-            <div className={`cursor-pointer bg-green-400  self-end shadow-black ${currentControl == 'Paint Brush' && 'bg-white'}  rounded-full z-50 relative`}
+            <div className={`cursor-pointer self-end shadow-black ${currentControl == 'Paint Brush' && 'bg-white'}  rounded-full z-50 relative`}
             // ${currentControl == 'Paint Brush' ? 'bg-green-400' : 'bg-red-400'}
                 style={{padding : 10}}
                 onClick={() => dispatch(uiActions.setCurrentControl(currentControl == 'Paint Brush' ? null : 'Paint Brush'))}

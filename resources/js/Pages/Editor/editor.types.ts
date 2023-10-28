@@ -26,6 +26,7 @@ export interface Actions {
     setActiveThread : (value : number) => void,
     setActiveFrame : (threadIndex : number, value : number) => void,
     setDegreeOfOrigin : (value : number, index : number) => void,
+    reOrderThreads : (threads : Thread[]) => void
     playAll : () => void,
     pauseAll : () => void,
     pushFrame : (threadIndex : number) => void,

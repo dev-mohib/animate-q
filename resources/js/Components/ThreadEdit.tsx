@@ -15,11 +15,9 @@ const reOrder = (list : ThreadList[], startIndex : number, endIndex : number) =>
 };
 
 function ThreadsEdit({threadState, actions, isExpanded} : {threadState : ThreadState, actions : ThreadActions, isExpanded : boolean}) {
-  const dispatch = useAppDispatch()
-  // const { threads } = useAppSelector(s => s.editorSlice)
-  const { isThreadShow } = useAppSelector(s => s.uiSlice)
 
   function onDragEnd(result : any) {
+    console.log("drag end called")
     if (!result.destination) {
       return;
     }
@@ -31,7 +29,9 @@ function ThreadsEdit({threadState, actions, isExpanded} : {threadState : ThreadS
       result.source.index,
       result.destination.index
     );
+    console.log({_threads})
     // dispatch(editorActions.reOrderThreads(_threads))
+    actions.reOrderThreads(_threads)
   }
 
   return (
