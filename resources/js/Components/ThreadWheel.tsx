@@ -14,7 +14,7 @@ export const SwipeControl = ({index = 0, tActions, thread, tState} : {index : nu
   const { activeThread } = tState
   const { isThreadShow } = useAppSelector(s => s.uiSlice)
   
-  return index == activeThread && isThreadShow  ?(
+  return index == activeThread && isThreadShow ? (
     <div  className="w-32 bg-black opacity-0  h-56 text-white absolute bottom-12 left-16" 
     onTouchStart={(e) => {
       setStartingPoint(e.touches[0].clientY);
@@ -22,7 +22,7 @@ export const SwipeControl = ({index = 0, tActions, thread, tState} : {index : nu
     onTouchMove={(e) => {
       const _clientY = e.touches[0].clientY;
       if(startingPoint < _clientY){
-        const newValue = thread.degreeOfOrigin + 3
+        const newValue = thread.degreeOfOrigin??0 + 3
         tActions.setDegreeOfOrigin(newValue < 360 ? newValue : newValue - 360, index)
       }
       else{

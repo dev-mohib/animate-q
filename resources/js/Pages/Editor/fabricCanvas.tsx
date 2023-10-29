@@ -46,7 +46,7 @@ const FabricCanvas = ({tState, tActions} : {tState : ThreadState, tActions : TSt
   
     _canvas.freeDrawingBrush = _pencilBrush
     //Free circle
-    const circle = new Fabric.Circle({ 
+    const freeCircle = new Fabric.Circle({ 
       opacity : 0,
       left : 0, 
       top : 0, 
@@ -59,7 +59,7 @@ const FabricCanvas = ({tState, tActions} : {tState : ThreadState, tActions : TSt
       fill : 'red'
     })
 
-    _canvas.add(circle)
+    _canvas.add(freeCircle)
     setFabric(_canvas)
 
 
@@ -94,12 +94,10 @@ const findObjectsByName = (name) =>{
 
   useEffect(() => {
     if(isLoaded){
-      // alert('setting canvas dimenstions')
       canvas.setDimensions({
         width : window.innerWidth,
         height : window.innerHeight
       })
-      
     }
   },[isResized])
 
@@ -122,6 +120,7 @@ const findObjectsByName = (name) =>{
         canvas.freeDrawingBrush.color = bgColor
         canvas.freeDrawingBrush.width = brushWidth   
       }
+      /*
       else {
           canvas.isDrawingMode = true
           canvas.freeDrawingBrush.color = brushColor
@@ -136,6 +135,7 @@ const findObjectsByName = (name) =>{
             };
         });
       }
+      */
       canvas.renderAll()
     }
   },[brushColor, brushWidth, bgColor, drawTool, isLoaded])
@@ -143,19 +143,19 @@ const findObjectsByName = (name) =>{
 
   useEffect(() => {
     if(isLoaded){
-    const circle = new Fabric.Circle({ 
+    const drawingCircle = new Fabric.Circle({ 
       fill : brushColor, 
       left : client.x, 
       top : client.y, 
       radius : brushWidth / 2,
     })
-    if(threads[activeThread]?.isPlaying){     
+    if(threads[activeThread].isPlaying){     
       canvas.isDrawingMode = false
       if(isPainting && drawTool == 'brush'){
-        canvas.add(circle)  
+        canvas.add(drawingCircle)  
       }
-    }else if(!threads[activeThread]?.isPlaying && !isPainting){
-    canvas.isDrawingMode = true
+    }else if(!threads[activeThread].isPlaying && !isPainting){
+      canvas.isDrawingMode = true
     }
   }
   },[isLoaded, activeThread, threads[activeThread], isPainting])
@@ -186,15 +186,16 @@ const findObjectsByName = (name) =>{
     if(isLoaded){
       const threadActive = threads[activeThread??0]
       canvas._objects.forEach(obj => {
-        obj.sendToBack()
         obj.visible = false
-      })
+        if(obj.name !== "eraser")
+          obj.sendToBack()          
+      })  
       if(isThreadShow) {
           findObjectsByData(activeThread, threads[activeThread].activeFrame)
-          // canvas?._objects
-          .forEach((object, index) => {
-              object.sendToBack()
+          .forEach((object) => {
               object.visible = true
+              if(object.name !== "eraser")
+                object.sendToBack()
               object.opacity = 1
               if(!threadActive.isPlaying){
                 if(threadLayersView == 'Next'){
@@ -217,7 +218,8 @@ const findObjectsByName = (name) =>{
         threads.forEach((_thread) => {
           findObjectsByData(_thread.index, _thread.activeFrame)
           .forEach((object) => {
-            object.sendToBack()
+            if(object.name !== "eraser")
+              object.sendToBack()
             object.visible = true
             object.opacity = 1
           })
@@ -225,10 +227,8 @@ const findObjectsByName = (name) =>{
       }
       canvas.renderAll()
     } 
-   },[activeThread, threads, threadLayersView, isThreadShow])
+   },[activeThread, threads[activeThread], threadLayersView, isThreadShow])
 
-  
-// },[])
 
   return (
     <canvas id='myCanvas'></canvas>
@@ -237,4 +237,3 @@ const findObjectsByName = (name) =>{
 }
 
 export default FabricCanvas
-export {Fabric} 
