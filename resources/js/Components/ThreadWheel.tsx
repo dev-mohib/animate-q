@@ -99,7 +99,7 @@ const handleFrameBack = () => {
         //   {clipPath : 'circle(19% at 34% 43%)', backgroundColor : 'rgba(0, 0, 0, 0.555)', zIndex : 1}}  
         style={{
           clipPath : isThreadShow && activeThread == index ? 'circle(100% at 50% 28%)' : 'circle(19% at 34% 43%)',
-          backgroundColor : isThreadShow && activeThread == index ? 'rgba(0, 0, 0, 0.35)' : activeThread == index ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.5)',
+          backgroundColor : isThreadShow && activeThread == index ? 'rgba(0, 0, 0, 0.35)' : activeThread == index ? 'rgba(107, 114, 128, 0.85)' : 'rgba(0, 0, 0, 0.5)',
           zIndex : isThreadShow && activeThread == index ? 999 : 1
         }}
         className="wheel-container flex flex-col justify-start bg-green-300" 

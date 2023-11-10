@@ -192,32 +192,27 @@ const findObjectsByName = (name) =>{
           obj.sendToBack()          
       })  
       if(isThreadShow) {
-          findObjectsByData(activeThread, threads[activeThread].activeFrame)
-          .forEach((object) => {
-              object.visible = true
-              if(object.name !== "eraser")
-                object.sendToBack()
-              object.opacity = 1
-              if(!threadActive.isPlaying){
-                if(threadLayersView == 'Next'){
-                  const nextIndex = threadActive.activeFrame == threadActive.frames.length - 1  ? 0 : threadActive.activeFrame + 1
-                  findObjectsByData(activeThread, nextIndex).forEach(obj => {
-                    obj.visible = true
-                    obj.opacity = 0.3
-                  })
-                }else if(threadLayersView == 'Previous'){
-                  const previousIndex = threadActive.activeFrame ==  0 ?  threadActive.frames.length - 1 : threadActive.activeFrame - 1
-                  findObjectsByData(activeThread, previousIndex).forEach(obj => {
-                    obj.visible = true
-                    obj.selectable = false
-                    obj.opacity = 0.3
-                   })
-                }else {
-                  findObjectsByFrame(threadActive.activeFrame).forEach(o => {
-                    o.visible = true
-                  })
-                }
+        findObjectsByFrame(threads[activeThread].activeFrame).forEach(object => {
+          object.visible = true
+          if(object.name !== "eraser")
+            object.sendToBack()
+          object.opacity = 1
+          if(!threadActive.isPlaying && object.data.activeThread == activeThread){
+            if(threadLayersView == 'Next'){
+              const nextIndex = threadActive.activeFrame == threadActive.frames.length - 1  ? 0 : threadActive.activeFrame + 1
+              findObjectsByData(activeThread, nextIndex).forEach(obj => {
+                obj.visible = true
+                obj.opacity = 0.3
+              })
+            }else if(threadLayersView == 'Previous'){
+              const previousIndex = threadActive.activeFrame ==  0 ?  threadActive.frames.length - 1 : threadActive.activeFrame - 1
+              findObjectsByData(activeThread, previousIndex).forEach(obj => {
+                obj.visible = true
+                obj.selectable = false
+                obj.opacity = 0.3
+              })
             }
+          }
         })
       } else {
         threads.forEach((_thread) => {
@@ -229,6 +224,7 @@ const findObjectsByName = (name) =>{
             object.opacity = 1
           })
         })
+       
       }
       canvas.renderAll()
     } 
