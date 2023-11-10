@@ -88,6 +88,7 @@ const FabricCanvas = ({tState, tActions} : {tState : ThreadState, tActions : TSt
 const findObjectsByData = (activeThread = 0, activeFrame = 0) =>{
   return canvas._objects.filter(obj => obj?.data?.activeThread == activeThread && obj?.data?.activeFrame == activeFrame )
 }
+const findObjectsByFrame = (activeFrame=0) => canvas._objects.filter(obj => obj?.data.activeFrame == activeFrame )
 const findObjectsByName = (name) =>{
   return canvas._objects.filter(obj => obj.name == name)
 }
@@ -211,6 +212,10 @@ const findObjectsByName = (name) =>{
                     obj.selectable = false
                     obj.opacity = 0.3
                    })
+                }else {
+                  findObjectsByFrame(threadActive.activeFrame).forEach(o => {
+                    o.visible = true
+                  })
                 }
             }
         })
